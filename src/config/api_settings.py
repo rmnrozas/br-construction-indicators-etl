@@ -1,6 +1,6 @@
 # BCB SERIES (API Banco Central)
 SERIES = {
-    4390:  "selic_mensal",
+    4390:  "selic",
     433:   "ipca",
     1636:  "ipca_habitacao",
     192:   "incc_di",

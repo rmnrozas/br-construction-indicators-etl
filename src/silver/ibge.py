@@ -1,6 +1,12 @@
-# %%
 import pandas as pd
+import logging
+
 from pathlib import Path
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 def get_latest_file(folder: Path):
     files = sorted(folder.glob('*.json'))
@@ -56,9 +62,11 @@ def transform_sinapi(df: pd.DataFrame, output_path: Path):
     # Alteração de tipos
     df['custo_m2'] = pd.to_numeric(df['custo_m2'], errors='coerce')
     df['ano_mes'] = pd.to_datetime(df['ano_mes'], format='%Y%m')
+    logging.info(f"Dados do SINAPI tratado com sucesso!")
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     df.to_parquet(output_path, engine='pyarrow')
+    logging.info(f"Dados do SINAPI salvos em {output_path}")
 
     return df
 

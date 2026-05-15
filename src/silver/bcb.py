@@ -1,7 +1,13 @@
 import pandas as pd
+import logging
 
 from pathlib import Path
 from src.config.api_settings import SERIES
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 def get_latest_file(folder: Path) -> Path:
     files = sorted(folder.glob('*.json'))
@@ -10,17 +16,18 @@ def get_latest_file(folder: Path) -> Path:
     return files[-1]
 
 
-def load_bronze_file(folder: Path) -> pd.DataFrame:
+def load_bronze_file(folder: Path):
     raw_path = get_latest_file(folder)
     df = pd.read_json(raw_path)
     return df
 
 
-def transform_bcb(df: pd.DataFrame, serie_name: str) -> pd.DataFrame:
+def transform_bcb(df: pd.DataFrame, serie_name: str):
     df['data']  = pd.to_datetime(df['data'], dayfirst=True)
     df['valor'] = pd.to_numeric(df['valor'], errors='coerce')
     df['serie'] = serie_name
     df = df.dropna(subset=['valor']).sort_values('data').reset_index(drop=True)
+    logging.info(f"{serie_name} tratado com sucesso!")
     return df
 
 
@@ -31,7 +38,7 @@ def run_silver_bcb(output_dir: Path = Path("data/silver/bcb")):
         df = load_bronze_file(Path(f"data/bronze/bcb/{name}"))
         df = transform_bcb(df, serie_name=name)
         df.to_parquet(output_dir / f"{name}.parquet", engine="pyarrow")
-        print(f"[silver] {name}: {len(df)} registros")
+        logging.info(f"{name}.parquet salvo em {output_dir}")
 
 #run_silver_bcb()
 

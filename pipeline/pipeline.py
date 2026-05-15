@@ -1,11 +1,7 @@
 import logging
+
 from pathlib import Path
 from datetime import datetime
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
 
 from src.ingestion.bcb import extract_bcb_series
 from src.ingestion.ibge import extract_sinapi_data
@@ -14,6 +10,11 @@ from src.silver.ibge import load_bronze_file, transform_sinapi
 from src.gold.gold import run_gold
 
 from src.config.api_settings import SINAPI_CONFIG, SERIES
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 START_DATE = "01/01/2013"
 END_DATE   = datetime.today().strftime("%d/%m/%Y")

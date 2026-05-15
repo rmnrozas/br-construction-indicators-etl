@@ -1,8 +1,6 @@
 from datetime import datetime
 from pathlib import Path
 
-from src.config.api_settings import SERIES
-
 import time
 import requests
 import json
@@ -67,8 +65,8 @@ def extract_bcb_series(start_date: str, end_date: str, bcb_series: dict):
             logging.error(f'Falha ao extrair {NAME}: {e}')
 
 
-start_date = "01/01/2013"
-end_date = datetime.today().strftime("%d/%m/%Y")
+# start_date = "01/01/2013"
+# end_date = datetime.today().strftime("%d/%m/%Y")
 
 #extract_bcb_series(start_date=start_date, end_date=end_date, bcb_series=SERIES)
 
@@ -80,10 +78,3 @@ end_date = datetime.today().strftime("%d/%m/%Y")
 # # print(df.columns)
 
 # print(ic_br_metal_usd)
-
-
-
-
-
-
-
