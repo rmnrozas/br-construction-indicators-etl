@@ -6,8 +6,6 @@ import requests
 import json
 import logging
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
 def fetch_bcb(code: int, start_date: str, end_date: str, fmt='json', retries=3):
     
     base_url = f'https://api.bcb.gov.br/dados/serie/bcdata.sgs.{code}/dados'
@@ -63,18 +61,3 @@ def extract_bcb_series(start_date: str, end_date: str, bcb_series: dict):
 
         except Exception as e:
             logging.error(f'Falha ao extrair {NAME}: {e}')
-
-
-# start_date = "01/01/2013"
-# end_date = datetime.today().strftime("%d/%m/%Y")
-
-#extract_bcb_series(start_date=start_date, end_date=end_date, bcb_series=SERIES)
-
-
-# ic_br_metal_usd = fetch_series_bcb(code=29040, start_date=start_date, end_date=end_date)
-# save_raw_bcb(file_name='ic_br_metal_usd', data=ic_br_metal_usd)
-
-# # df = pd.DataFrame(data=ipca)
-# # print(df.columns)
-
-# print(ic_br_metal_usd)

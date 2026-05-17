@@ -2,19 +2,17 @@ import pandas as pd
 import logging
 
 from pathlib import Path
-from src.config.api_settings import SERIES
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
+from src.config.settings import SERIES
 
 def get_latest_file(folder: Path) -> Path:
     files = sorted(folder.glob('*.json'))
     if not files:
+        logging.warning(f'Nenhum arquivo JSON encontrado em: {folder}')
         raise FileNotFoundError(f'Nenhum arquivo encontrado em {folder}')
-    return files[-1]
-
+    
+    latest_file = files[-1]
+    
+    return latest_file
 
 def load_bronze_file(folder: Path):
     raw_path = get_latest_file(folder)

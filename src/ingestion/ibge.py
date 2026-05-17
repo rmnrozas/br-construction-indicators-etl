@@ -1,14 +1,10 @@
 from datetime import datetime
 from pathlib import Path
 
-from src.config.api_settings import SINAPI_CONFIG
-
 import requests
 import json
 import time
 import logging
-
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def build_sinapi_url(config: dict, start_date: str, end_date: str):
     """
@@ -81,11 +77,3 @@ def extract_sinapi_data(sinapi_config: dict, start_date: str, end_date: str):
 
     except Exception as e:
         logging.error(f'Falha ao extrair dados do SINAPI: {e}')
-
-#data = fetch_sinapi(config=SINAPI_CONFIG)
-#save_raw_sinapi(data=data)
-
-# start_date = "01/01/2013"
-# end_date = datetime.today().strftime("%d/%m/%Y")
-
-# extract_sinapi_data(sinapi_config=SINAPI_CONFIG, start_date=start_date, end_date=end_date)

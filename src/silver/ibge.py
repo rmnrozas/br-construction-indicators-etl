@@ -3,17 +3,15 @@ import logging
 
 from pathlib import Path
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
-
 def get_latest_file(folder: Path):
     files = sorted(folder.glob('*.json'))
-
     if not files:
+        logging.warning(f'Nenhum arquivo JSON encontrado em: {folder}')
         raise FileNotFoundError(f'Nenhum arquivo encontrado em {folder}')
-    return files[-1] # Arquivo mais recente
+    
+    latest_file = files[-1]
+    
+    return latest_file
 
 def load_bronze_file(folder: Path):
 
@@ -22,7 +20,7 @@ def load_bronze_file(folder: Path):
 
     return df
 
-def transform_sinapi(df: pd.DataFrame, output_path: Path):
+def transform_sinapi(df: pd.DataFrame):
 
     # MAPEAMENTO VARIÁVEIS
     # 48 - Custo Geral
@@ -62,13 +60,21 @@ def transform_sinapi(df: pd.DataFrame, output_path: Path):
     # Alteração de tipos
     df['custo_m2'] = pd.to_numeric(df['custo_m2'], errors='coerce')
     df['ano_mes'] = pd.to_datetime(df['ano_mes'], format='%Y%m')
-    logging.info(f"Dados do SINAPI tratado com sucesso!")
-
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    df.to_parquet(output_path, engine='pyarrow')
-    logging.info(f"Dados do SINAPI salvos em {output_path}")
+    logging.info(f"Dados do SINAPI tratados com sucesso!")
 
     return df
+
+def run_silver_ibge(output_dir: Path = Path("data/silver/ibge"), file_name: str = 'sinapi.parquet'):
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_path = f'{output_dir}\{file_name}'
+
+    df_bronze = load_bronze_file(folder=Path("data/bronze/ibge/sinapi"))
+    df_silver = transform_sinapi(df=df_bronze)
+
+    df_silver.to_parquet(output_path, engine='pyarrow')
+    logging.info(f"Dados do SINAPI salvos em {output_path}")
+
 
 # df = load_bronze_file(Path("data/bronze/ibge/sinapi"))
 # transform_sinapi(df=df, output_path=Path("data/silver/ibge/sinapi.parquet"))

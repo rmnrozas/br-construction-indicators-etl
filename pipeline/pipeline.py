@@ -5,19 +5,19 @@ from datetime import datetime
 
 from src.ingestion.bcb import extract_bcb_series
 from src.ingestion.ibge import extract_sinapi_data
+
 from src.silver.bcb import run_silver_bcb
-from src.silver.ibge import load_bronze_file, transform_sinapi
+from src.silver.ibge import run_silver_ibge
+
 from src.gold.gold import run_gold
 
-from src.config.api_settings import SINAPI_CONFIG, SERIES
+from src.config.settings import SINAPI_CONFIG, SERIES
+from src.config.logging_config import setup_logging
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
+setup_logging()
 
 START_DATE = "01/01/2013"
-END_DATE   = datetime.today().strftime("%d/%m/%Y")
+END_DATE = datetime.today().strftime("%d/%m/%Y")
 
 def run_pipeline():
 
@@ -27,8 +27,7 @@ def run_pipeline():
 
     logging.info("---------SILVER---------")
     run_silver_bcb()
-    df_sinapi = load_bronze_file(Path("data/bronze/ibge/sinapi"))
-    transform_sinapi(df_sinapi, output_path=Path("data/silver/ibge/sinapi.parquet"))
+    run_silver_ibge()
 
     logging.info("---------GOLD---------")
     run_gold(

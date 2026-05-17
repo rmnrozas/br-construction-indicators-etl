@@ -1,17 +1,9 @@
 import pandas as pd
 import logging
 
+from src.config.settings import METAL_SERIES
+
 from pathlib import Path
-
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-metal_series = ['ic_br_metal', 'ic_br_metal_usd']
-
-sinapi_columns = {
-    'geral': 'sinapi',
-    'mo': 'sinapi_mo',
-    'materiais': 'sinapi_mat',
-}
 
 def load_silver_bcb(folder: Path) -> pd.DataFrame:
     files = list(folder.glob('*.parquet'))
@@ -25,7 +17,7 @@ def transform_gold_bcb(df: pd.DataFrame) -> pd.DataFrame:
     for serie in df['serie'].unique():
         ds = df[df['serie'] == serie].copy().sort_values('data')
 
-        if serie in metal_series:
+        if serie in METAL_SERIES:
             ds['valor'] = ds['valor'].pct_change() * 100
 
         ds['rolling_12m'] = ds['valor'].rolling(12).sum().round(4)
@@ -40,6 +32,13 @@ def transform_gold_bcb(df: pd.DataFrame) -> pd.DataFrame:
 
 def transform_gold_sinapi(df: pd.DataFrame) -> pd.DataFrame:
     dfs = []
+
+    sinapi_columns = {
+        'geral': 'sinapi',
+        'mo': 'sinapi_mo',
+        'materiais': 'sinapi_mat',
+    }
+
     for tipo in df['tipo_custo'].unique():
         ds = df[df['tipo_custo'] == tipo].copy().sort_values('ano_mes')
 

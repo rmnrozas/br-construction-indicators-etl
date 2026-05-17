@@ -4,15 +4,15 @@ import streamlit as st
 from pathlib import Path
 
 INDICATOR_NAMES = {
-    "selic_mensal":    "SELIC",
-    "ipca":            "IPCA",
-    "ipca_habitacao":  "IPCA Habitação",
-    "incc_di":         "INCC-DI",
-    "ic_br_metal":     "IC-BR Metal",
+    "selic": "SELIC",
+    "ipca": "IPCA",
+    "ipca_habitacao": "IPCA Habitação",
+    "incc_di": "INCC-DI",
+    "ic_br_metal": "IC-BR Metal",
     "ic_br_metal_usd": "IC-BR Metal (USD)",
-    "sinapi":          "SINAPI",
-    "sinapi_mo":       "SINAPI Mão de Obra",
-    "sinapi_mat":      "SINAPI Materiais",
+    "sinapi": "SINAPI",
+    "sinapi_mo": "SINAPI Mão de Obra",
+    "sinapi_mat": "SINAPI Materiais",
 }
 
 st.set_page_config(
@@ -24,7 +24,6 @@ st.set_page_config(
 def load_data() -> pd.DataFrame:
     df = pd.read_parquet(Path("data/gold/indicators.parquet"))
     df["indicator"] = df["indicator"].replace(INDICATOR_NAMES)
-    df["date"] = pd.to_datetime(df["date"])
     return df
 
 df = load_data()
@@ -41,6 +40,7 @@ selected_indicators = st.sidebar.multiselect(
 
 ano_min = df["date"].dt.year.min()
 ano_max = df["date"].dt.year.max()
+
 ano_inicio, ano_fim = st.sidebar.slider(
     "Período",
     min_value=ano_min,
