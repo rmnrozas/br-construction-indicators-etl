@@ -7,9 +7,6 @@ Pipeline de dados end-to-end que automatiza a extração, tratamento e consolida
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.x-FF4B4B)
 ![Docker](https://img.shields.io/badge/Docker-ready-2496ED)
 
-
-
-
 ## Visão Geral do Projeto
 
 O projeto consiste em um fluxo completo de engenharia de dados que consome dados de duas APIs externas (**Banco Central do Brasil** e **IBGE/SIDRA**), estruturando as informações para análise temporal histórica. 
@@ -21,6 +18,12 @@ O processamento e a transformação dos dados seguem a **Arquitetura Medalhão**
 * **Camada Silver:** Limpeza, tipagem forte, tratamento de datas e conversão para o formato colunar Parquet.
 * **Camada Gold:** Consolidação das tabelas e cálculo das métricas de variação temporal (mensal, acumulada e últimos 12 meses).
 * **Consumo:** Dashboard interativo em Streamlit consumindo o arquivo final otimizado.
+
+---
+
+## Arquitetura
+
+<img width="5100" height="1769" alt="excalidraw_project" src="https://github.com/user-attachments/assets/7e22a8d0-dc99-4df9-a85c-b9eea429ba47" />
 
 ---
 
@@ -39,30 +42,6 @@ O processamento e a transformação dos dados seguem a **Arquitetura Medalhão**
 | SINAPI Mão de Obra | IBGE/SIDRA | 2296 |
 
 ---
-
-## Arquitetura
-
-```
-Fontes (BCB + IBGE)
-        ↓
-    Bronze
-    JSON bruto das APIs
-    data/bronze/bcb/ + data/bronze/ibge/
-        ↓
-    Silver
-    Parquets por indicador — tipagem e normalização
-    data/silver/bcb/ + data/silver/ibge/
-        ↓
-     Gold
-    Parquet consolidado — variações calculadas
-    data/gold/indicators.parquet
-        ↓
-    Streamlit
-    Radar de Indicadores — visualização interativa
-```
-
----
-
 ## Estrutura do projeto
 
 ```
