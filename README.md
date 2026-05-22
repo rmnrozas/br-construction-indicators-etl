@@ -27,19 +27,21 @@ O processamento e a transformação dos dados seguem a **Arquitetura Medalhão**
 
 ---
 
+
+
 ##  Indicadores
 
-| Indicador | Fonte | Série |
-|---|---|---|
-| SELIC | BCB/SGS | 4390 |
-| IPCA | BCB/SGS | 433 |
-| IPCA Habitação | BCB/SGS | 1636 |
-| INCC-DI | BCB/SGS | 192 |
-| IC-BR Metal | BCB/SGS | 27576 |
-| IC-BR Metal (USD) | BCB/SGS | 29040 |
-| SINAPI | IBGE/SIDRA | 2296 |
-| SINAPI Materiais | IBGE/SIDRA | 2296 |
-| SINAPI Mão de Obra | IBGE/SIDRA | 2296 |
+| Indicador | Descrição |
+|---|---|
+| SELIC | Taxa básica de juros definida pelo Copom. Influencia diretamente o custo de financiamentos imobiliários. |
+| IPCA | Índice oficial de inflação do Brasil. Referência para reajustes de contratos e correção monetária. |
+| IPCA Habitação | Subgrupo do IPCA focado em habitação, englobando aluguel, condomínio e manutenção residencial, por exemplo. |
+| INCC-DI | Índice de custo da construção residencial calculado pela FGV, cobrindo materiais e mão de obra. |
+| IC-BR Metal (BRL) | Índice de commodities metálicas em reais. Reflete a variação de preços de minério de ferro, cobre e alumínio convertidos para a moeda nacional. |
+| IC-BR Metal (USD) | Mesma cesta do IC-BR Metal em dólares. Permite isolar o efeito cambial nos insumos importados. |
+| SINAPI | Custo médio por m² da construção residencial. Referência oficial para orçamentos de obras públicas. |
+| SINAPI Materiais | Componente do SINAPI referente ao custo de materiais. |
+| SINAPI Mão de Obra | Componente do SINAPI referente ao custo de mão de obra e encargos na construção civil. |
 
 ---
 ## Estrutura do projeto
@@ -80,8 +82,7 @@ br-construction-indicators-etl/
 ## Pré-requisitos
 
 - Python 3.11+
-- [uv](https://github.com/astral-sh/uv)
-- Docker (opcional, recomendado)
+- Docker (opcional)
 
 ---
 
@@ -97,13 +98,25 @@ cd br-construction-indicators-etl
 ### 2. Instale as dependências
 
 ```bash
+# Com uv (recomendado):
 uv sync
+
+# Com pip:
+python -m venv .venv
+source .venv/bin/activate  # Linux/Mac
+.venv\Scripts\activate     # Windows
+pip install -r requirements.txt
+
 ```
 
-### 3. Gere os dados
+### 3. Execute o Pipeline
 
 ```bash
-uv run python -m pipeline
+# Com uv:
+uv run python pipeline.py
+
+# Com pip:
+python pipeline.py
 ```
 
 Extrai os indicadores de 2013 até hoje e gera o data/gold/indicators.parquet`.
@@ -119,7 +132,7 @@ docker-compose up -d --build
 **Sem Docker:**
 
 ```bash
-uv run streamlit run app/main.py
+streamlit run app/main.py
 ```
 
 Acesse em **`http://localhost:8501`**
@@ -151,3 +164,9 @@ Filtros disponíveis: seleção de indicadores (multiselect) e intervalo de per�
 | Parquet | Formato de armazenamento |
 
 ---
+## Autor
+
+**Ramon Marsan Rozas**
+
+- LinkedIn: [https://linkedin.com/in/ramon-m-rozas](https://linkedin.com/in/ramon-m-rozas)
+- GitHub: [github.com/rmnrozas](https://github.com/rmnrozas)
