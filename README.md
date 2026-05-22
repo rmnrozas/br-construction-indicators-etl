@@ -149,6 +149,8 @@ O dashboard oferece três modos de visualização para os indicadores selecionad
 
 Filtros disponíveis: seleção de indicadores (multiselect) e intervalo de período (slider por ano).
 
+<img width="1827" height="755" alt="Image" src="https://github.com/user-attachments/assets/79348d22-75d8-4703-816d-b4afa00ceda6" />
+
 ---
 
 ## Tecnologias Utilizadas
