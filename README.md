@@ -3,7 +3,7 @@
 Pipeline de dados end-to-end que automatiza a extração, tratamento e consolidação de indicadores econômicos voltados ao setor da construção civil brasileira.
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
-![Pandas](https://img.shields.io/badge/Pandas-2.x-150458)
+![Pandas](https://img.shields.io/badge/Pandas-3.x-150458)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.x-FF4B4B)
 ![Docker](https://img.shields.io/badge/Docker-ready-2496ED)
 
