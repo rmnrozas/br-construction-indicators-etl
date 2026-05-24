@@ -37,30 +37,3 @@ def run_silver_bcb(output_dir: Path = Path("data/silver/bcb")):
         df = transform_bcb(df, serie_name=name)
         df.to_parquet(output_dir / f"{name}.parquet", engine="pyarrow")
         logging.info(f"{name}.parquet salvo em {output_dir}")
-
-#run_silver_bcb()
-
-# def parse_bcb_series(serie_name: str):
-
-#     path = f'../../data/raw/bcb/{serie_name}/20260414_response.json'
-
-#     df = pd.read_json(path)
-
-#     df['data'] = pd.to_datetime(df['data'], dayfirst=True)
-
-#     return df
-
-# def parse_metal_series(serie_name: str):
-
-#     path = f'../../data/raw/bcb/{serie_name}/20260426_response.json'
-
-#     df = pd.read_json(path)
-
-#     df['data'] = pd.to_datetime(df['data'], dayfirst=True)
-
-#     df = df.sort_values(by=['data'])
-
-#     return df
-
-
-#   df['variacao_mensal'] = df['valor'].pct_change() * 100

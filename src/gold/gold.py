@@ -64,7 +64,7 @@ def transform_gold(df_bcb: pd.DataFrame, df_sinapi: pd.DataFrame):
 
     return df_gold
 
-def run_gold(silver_dir: Path, output_dir: Path) -> pd.DataFrame:
+def run_gold(silver_dir: Path = Path("data/silver"), output_dir: Path = Path("data/gold")):
     df_bcb = load_silver_bcb(silver_dir/'bcb')
     df_sinapi = pd.read_parquet(silver_dir/'ibge'/'sinapi.parquet')
 

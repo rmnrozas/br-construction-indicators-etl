@@ -74,18 +74,3 @@ def run_silver_ibge(output_dir: Path = Path("data/silver/ibge"), file_name: str 
 
     df_silver.to_parquet(output_path, engine='pyarrow')
     logging.info(f"Dados do SINAPI salvos em {output_path}")
-
-
-# df = load_bronze_file(Path("data/bronze/ibge/sinapi"))
-# transform_sinapi(df=df, output_path=Path("data/silver/ibge/sinapi.parquet"))
-
-#def save_silver_file():
-
-
-
-# df = df.sort_values(['tipo_custo', 'ano_mes'])
-
-#     df['variacao_mensal'] = (
-#         df.groupby(by=['tipo_custo'])['custo_m2']
-#         .pct_change() * 100
-#     )
